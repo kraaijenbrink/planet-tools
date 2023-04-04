@@ -1,0 +1,71 @@
+{
+	"type": "AndFilter",
+	"config": [
+		{
+		"type": "StringInFilter",
+		"field_name": "item_type",
+		"config": [
+		  "PSScene"
+		]
+		},			
+		{
+			"type": "AssetFilter",
+			"config": [
+			  "ortho_analytic_4b_sr",
+			  "ortho_analytic_8b_sr"
+			]
+		},
+		{
+			"type": "AssetFilter",
+			"config": [
+			  "ortho_udm2"
+			]
+		},
+
+		 {
+			"config": {
+			  "lte": 0.02
+			},
+			"field_name": "cloud_cover",
+			"type": "RangeFilter"
+		  },
+		  {
+			"config": [
+			  "true"
+			],
+			"field_name": "ground_control",
+			"type": "StringInFilter"
+		  },
+		  {
+			"type": "GeometryFilter",
+			"field_name": "geometry",
+			"config": {
+			  "coordinates": [
+				[
+				  [
+					7.571378,
+					46.225351
+				  ],
+				  [
+					7.718066,
+					46.225351
+				  ],
+				  [
+					7.718066,
+					46.317323
+				  ],
+				  [
+					7.571378,
+					46.317323
+				  ],
+				  [
+					7.571378,
+					46.225351
+				  ]
+				]
+			  ],
+			  "type": "Polygon"
+			}
+		  }
+		  ]
+}
