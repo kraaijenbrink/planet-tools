@@ -9,18 +9,23 @@ from shapely.ops import transform
 import pyproj
 import geopandas as gpd
 
-# settings
-perform_dryrun  = True          # first perform a dryrun to check settings and return before ordering massive amounts!
-order_name      = 'Fieldwork France 2024'
-aoi_file        = 'filters/fieldwork-france-aoi.geojson'
-start_date      = '2016-01-01'
-end_date        = '2024-01-01'
-max_cloud       = 0.05
-udm_required    = True
-clip_to_aoi     = True
-harmonize_to_S2 = True
+# settings ================================================================
+
+# always perform a dryrun first to check settings and get idea of the impact of the
+# order on the departmental quota to make sure you don't order massive amounts!
+perform_dryrun  = True                                          # Do not order directly, but only perform search and quota estimation
+order_name      = 'Meretschi'                                   # base name for order
+aoi_file        = 'filters/meretschi_catchment_rect.geojson'    # geojson polygon definition with area of interest, WGS84 crs
+start_date      = '2015-01-01'
+end_date        = '2025-12-31'
+max_cloud       = 0.2                                           # max cloud fraction of the original scene that overlaps the aoi
+udm_required    = True                                          # whether to only select scenes for with Usable Data Masks are available
+clip_to_aoi     = True                                          # only download part of scene overlapping with aoi (limits use of quota)
+harmonize_to_S2 = True                                          # apply Planet's radiometric harmonization routine that uses seasonal Sentinel-2 as reference
 assets          = ["ortho_analytic_8b_sr","ortho_analytic_4b_sr"]
-product_bundle  = "analytic_8b_sr_udm2,analytic_sr_udm2"    # second is fallback
+product_bundle  = "analytic_8b_sr_udm2,analytic_sr_udm2"        # second is fallback
+
+# ===========================================================================
 
 # setup client
 api_key = os.environ.get("PL_API_KEY")
@@ -89,7 +94,6 @@ for i in range(len(ids)):
 
     part_no = "{:02d}".format(i+1)
     print('Ordering: ' + order_name + " part " + part_no + ' (' + str(len(ids[i])) +' items)...')
-
 
     order_request = {  
     "name": order_name + " part " + part_no,

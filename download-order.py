@@ -6,17 +6,28 @@ import time
 from multiprocessing import cpu_count
 from multiprocessing.pool import ThreadPool
 
+
+# settings =================================================================
+
+# list (multiple) orders by matching part of string
+str_match = "Meretschi"
+
+# root of output, additional subdirs will be created using order names
+out_path = 'c:/workspace/temporary/'
+
+# ==========================================================================
+
+
 # setup client
 api_key = os.environ.get("PL_API_KEY")
 client = api.ClientV1(api_key)
 
 # get order information
 orders = client.get_orders()
-order_ids = [x['id'] for x in orders.items_iter(1000) if 'Fieldwork France ' in x['name']]
-order_names = [x['name'] for x in orders.items_iter(1000) if 'Fieldwork France ' in x['name']]
+order_ids = [x['id'] for x in orders.items_iter(1000) if str_match in x['name']]
+order_names = [x['name'] for x in orders.items_iter(1000) if str_match in x['name']]
 
 # prep output location
-out_path = 'c:/workspace/vwk1-imagery/planet-raw'
 if not os.path.exists(out_path):
     os.mkdir(out_path)
 
