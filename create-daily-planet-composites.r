@@ -1,17 +1,18 @@
 library(tidyverse)
 library(sf)
 library(terra)
-library(rjson)
+# library(rjson)
+library(jsonlite)
 library(pbapply)
 library(parallel)
 library(snowfall)
 
-setwd('c:/workspace/meretschi-basten')
+setwd('c:/workspace/lergue_planet')
 rm(list=ls())
 
 
-indir = 'c:/workspace/meretschi-data/planet'
-outdir = './planet-composites'
+indir = './raw'
+outdir = './composites'
 
 
 # get metadata
@@ -21,7 +22,7 @@ meta_files = list.files(indir, recursive=T, full.names=T, pattern='.*metadata.js
 image_ids = str_remove(str_extract(basename(sr_files),'.*_3B'),'_3B$')
 
 # read all meta
-meta = pblapply(meta_files, function(fn) fromJSON(readLines(fn)))
+meta = pblapply(meta_files, function(fn) jsonlite::read_json(fn))
 timestamps = as.POSIXct(sapply(meta, function(x) as.POSIXct(x$properties$acquired, tz = 'UTC', format = '%Y-%m-%dT%H:%M:%OSZ')),
                         origin = '1970-01-01 00:00:00', tz='UTC')
 dates = as.Date(sapply(timestamps, function(x) format(x, '%Y-%m-%d')))
