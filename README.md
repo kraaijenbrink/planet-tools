@@ -9,3 +9,9 @@ Code is working with [Planet Python Client V1](https://developers.planet.com/doc
   Downloads processed orders in bulk, matching part of string with the order name
 - `create-daily-planet-composites.r`  
   First attempt at a mosaicking algorithm for scenes of a single day using R `terra`
+
+
+Note that the geometry filters used have to be provided as a GeoJSON polygon using WGS84 latlon coordinate reference system (EPSG:4326). Only the geometry definition part of the GeoJSON should be provided, e.g.:
+`{"type":"Polygon","coordinates":[[[3.3,43.5],[3.5,43.5],[3.5,43.8],[3.3,43.8],[3.3,43.5]]]}`
+
+
