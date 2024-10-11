@@ -27,6 +27,9 @@ orders = client.get_orders()
 order_ids = [x['id'] for x in orders.items_iter(1000) if str_match in x['name']]
 order_names = [x['name'] for x in orders.items_iter(1000) if str_match in x['name']]
 
+for name in order_names:
+    print(name)
+
 # prep output location
 if not os.path.exists(out_path):
     os.mkdir(out_path)
