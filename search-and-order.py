@@ -60,7 +60,7 @@ no_of_features = len(results_all['features'])
 # get total area in km2 for total order
 polys_raw    = [Polygon(item['geometry']['coordinates'][0]) for item in results_all['features']]
 polys_df     = gpd.GeoDataFrame(index=range(len(polys_raw)), crs='epsg:4326', geometry=polys_raw )
-to_proj      = pyproj.Proj(proj='aea', lat_1=polys_df.total_bounds[1], lat_2=polys_df.total_bounds[2])
+to_proj      = pyproj.Proj(proj='aea', lat_1=polys_df.total_bounds[0], lat_2=polys_df.total_bounds[1])
 polys_df_aea = polys_df.to_crs(str(to_proj))
 aoi_df_aea   = gpd.GeoDataFrame(index=[0], crs='epsg:4326', geometry=[Polygon(aoi['coordinates'][0])]).to_crs(str(to_proj))
 polys_in_aoi = polys_df_aea.clip(aoi_df_aea)
